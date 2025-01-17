@@ -1,0 +1,14 @@
+### GET request to list all todo items
+GET http://localhost:8080/todo
+
+### POST request to add todo item
+POST http://localhost:8080/todo
+
+{
+"item": "Get veggies"
+}
+
+
+### GET request to search todo
+GET http://localhost:8080/search?q=bill
+
