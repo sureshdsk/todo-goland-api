@@ -11,6 +11,8 @@ import (
 type DBManager interface {
 	InsertItem(ctx context.Context, item db.Item) error
 	GetAllItems(ctx context.Context) ([]db.Item, error)
+	UpdateItemStatus(ctx context.Context, id int, status string) error
+	DeleteItem(ctx context.Context, id int) error
 }
 
 type Service struct {
@@ -66,9 +68,28 @@ func (svc *Service) GetAll() ([]db.Item, error) {
 	}
 	for _, item := range items {
 		results = append(results, db.Item{
+			ID:     item.ID,
 			Task:   item.Task,
 			Status: item.Status,
 		})
 	}
 	return results, nil
+}
+
+func (svc *Service) UpdateStatus(id int, status string) error {
+	if status == "" {
+		return errors.New("status is required")
+	}
+	
+	if err := svc.db.UpdateItemStatus(context.Background(), id, status); err != nil {
+		return fmt.Errorf("failed to update status: %w", err)
+	}
+	return nil
+}
+
+func (svc *Service) Delete(id int) error {
+	if err := svc.db.DeleteItem(context.Background(), id); err != nil {
+		return fmt.Errorf("failed to delete item: %w", err)
+	}
+	return nil
 }

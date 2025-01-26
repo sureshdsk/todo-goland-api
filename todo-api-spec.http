@@ -5,10 +5,20 @@ GET http://localhost:8080/todo
 POST http://localhost:8080/todo
 
 {
-"item": "Get veggies"
+"item": "Try cursor"
 }
 
 
 ### GET request to search todo
-GET http://localhost:8080/search?q=bill
+GET http://localhost:8080/search?q=cursor
 
+### PATCH request to update todo status
+PATCH http://localhost:8080/todo/3/status
+Content-Type: application/json
+
+{
+    "status": "COMPLETED"
+}
+
+### DELETE todo
+DELETE http://localhost:8080/todo/3
